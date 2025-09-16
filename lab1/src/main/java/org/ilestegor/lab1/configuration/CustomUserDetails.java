@@ -1,0 +1,44 @@
+package org.ilestegor.lab1.configuration;
+
+import org.ilestegor.lab1.model.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Collection;
+import java.util.List;
+
+public class CustomUserDetails implements ExtendedUserDetails {
+    private final Long id;
+
+    private final String username;
+
+    private final String password;
+
+    public CustomUserDetails(User user) {
+        this.id = user.getUserId();
+        this.username = user.getUserName();
+        this.password = user.getPassword();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+}
