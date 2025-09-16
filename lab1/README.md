@@ -38,6 +38,7 @@
 
 **Описание**: регистрация пользователя в системе. Пользователи с одинаковыми логинами не допустимы
 
+---
 
 - POST /api/auth/login
 
@@ -67,6 +68,8 @@
 }
 ```
 **Описание**: авторизация пользователя в системе
+
+---
 
 #### Todo API
 
@@ -106,6 +109,8 @@
 ```
 
 **Описание**: создание новой To-Do пользователем
+
+---
 
 - GET /api/todos
 
@@ -195,6 +200,20 @@ GET /api/todos?page=2&size=20
 
 
 ## Скриншоты отчетов SAST/SCA 
+
+### SAST (SpotBugs)
+
+![img.png](src/main/resources/img/spotbugs_cli.png)
+
+![spotbugs_report.png](src/main/resources/img/spotbugs_report.png)
+
+### SCA (snyk)
+
+![snyk_report.png](src/main/resources/img/snyk_report.png)
+
+## Ссылка на последний успешный запуск pipeline
+
+Ссылка: [pipeline](https://github.com/ilestegor/information_security_ITMO/actions/runs/17776702123)
 
 
 
