@@ -10,12 +10,15 @@ import java.time.LocalDateTime;
 
 public record RequestTodoDto(
         @NotEmpty
+        @Size(max = 100)
         String taskName,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
         @NotNull
         LocalDateTime deadline,
+        @Size(max = 2000)
         String description,
         @NotNull
+//        @NotEmpty
         Priority priority
 ) {
 }

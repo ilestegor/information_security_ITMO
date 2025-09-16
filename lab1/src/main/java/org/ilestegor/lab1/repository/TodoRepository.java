@@ -8,10 +8,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-
-    Page<ResponseTodoDto> findTodosByUser_UserId(long userUserId, Pageable pageable);
+    @Query("""
+               select new org.ilestegor.lab1.dto.ResponseTodoDto(
+                 t.id, t.taskName, t.description, t.deadline, t.priority, t.created, t.isCompleted
+               )
+               from Todo t
+               where t.user.userId = :userId
+            """)
+    Page<ResponseTodoDto> findTodosByUser_UserId(@Param("userId") long userId, Pageable pageable);
 }

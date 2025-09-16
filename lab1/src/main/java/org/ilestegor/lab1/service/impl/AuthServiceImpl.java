@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
             Cookie cookie = new Cookie(BEARER_TOKEN, jwt);
             cookie.setHttpOnly(true);
             cookie.setSecure(true);
-            cookie.setMaxAge((int)tokenTtl.toSeconds());
+            cookie.setMaxAge((int) tokenTtl.toSeconds());
             cookie.setPath("/");
             response.addCookie(cookie);
             return new JwtResponseDto(jwtService.getClaimsFromToken(jwt).getExpiration().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(), "JWT", true);
