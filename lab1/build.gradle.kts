@@ -3,9 +3,6 @@ plugins {
     id("org.springframework.boot") version "3.5.5"
     id("io.spring.dependency-management") version "1.1.7"
     id("com.github.spotbugs") version "6.3.0"
-    id("io.snyk.gradle.plugin.snykplugin") version "0.7.0"
-
-
 }
 
 group = "org.ilestegor"
@@ -58,10 +55,7 @@ tasks.withType<Test> {
 }
 spotbugs {
     ignoreFailures.set(false)
-    showProgress.set(true)
-    effort.set(com.github.spotbugs.snom.Effort.DEFAULT)
-    reportLevel.set(com.github.spotbugs.snom.Confidence.HIGH)
-}
+    effort.set(com.github.spotbugs.snom.Effort.MAX) }
 
 tasks.withType<com.github.spotbugs.snom.SpotBugsTask> {
     reports.create("html") {
@@ -69,14 +63,6 @@ tasks.withType<com.github.spotbugs.snom.SpotBugsTask> {
         outputLocation.set(layout.buildDirectory.file("reports/spotbugs/sast_report.html"))
         setStylesheet("fancy-hist.xsl")
     }
-}
-
-snyk {
-    setArguments("--all-sub-projects")
-    setSeverity("low")
-    setApi("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx")
-    setAutoDownload(true)
-    setAutoUpdate(true)
 }
 
 

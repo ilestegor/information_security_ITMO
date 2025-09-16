@@ -3,6 +3,7 @@ package org.ilestegor.lab1.service.impl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.ilestegor.lab1.configuration.jwtConfig.JwtService;
 import org.ilestegor.lab1.dto.JwtRequestDto;
 import org.ilestegor.lab1.dto.JwtResponseDto;
@@ -20,6 +21,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
@@ -30,11 +32,6 @@ public class AuthServiceImpl implements AuthService {
     @Value("${jwt.access-ttl}")
     private Duration tokenTtl;
 
-    public AuthServiceImpl(UserService userService, AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.userService = userService;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
-    }
 
     @Override
     @Transactional

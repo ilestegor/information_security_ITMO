@@ -2,6 +2,7 @@ package org.ilestegor.lab1.controller;
 
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.ilestegor.lab1.dto.RequestTodoDto;
 import org.ilestegor.lab1.dto.ResponseTodoDto;
 import org.ilestegor.lab1.service.TodoService;
@@ -14,13 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
 
-    public TodoController(TodoService todoService) {
-        this.todoService = todoService;
-    }
 
     @PostMapping("/todos")
     public ResponseEntity<ResponseTodoDto> addTodo(@RequestBody @Valid RequestTodoDto requestTodoDto, Authentication authentication) {

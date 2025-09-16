@@ -1,17 +1,23 @@
 package org.ilestegor.lab1.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Todo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private User user;
@@ -34,11 +40,7 @@ public class Todo {
 
     private boolean isCompleted;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -58,14 +60,6 @@ public class Todo {
         this.deadline = deadline;
     }
 
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -74,12 +68,12 @@ public class Todo {
         this.description = description;
     }
 
-    public boolean isCompleted() {
-        return isCompleted;
+    public Priority getPriority() {
+        return priority;
     }
 
-    public void setCompleted(Instant completed) {
-        this.completed = completed;
+    public void setPriority(Priority priority) {
+        this.priority = priority;
     }
 
     public Instant getCreated() {
@@ -88,6 +82,14 @@ public class Todo {
 
     public void setCreated(Instant created) {
         this.created = created;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(Instant completed) {
+        this.completed = completed;
     }
 
     @Override

@@ -186,12 +186,12 @@ GET /api/todos?page=2&size=20
 
 При логине или регистрации пользователя выдается JWT, который кладется в Cookie (HttpOnly, Secure) для предотвращения XSS
 
-Вся логика создания и проверки JWT находится здесь: [JwtServiceImpl](lab1/src/main/java/org/ilestegor/lab1/configuration/jwtConfig/JwtServiceImpl.java)
+Вся логика создания и проверки JWT находится здесь: [JwtServiceImpl](src/main/java/org/ilestegor/lab1/configuration/jwtConfig/JwtServiceImpl.java)
 
 Секрет, который используется для подписи JWT хранится в переменной окружения и внедряется в необходимые поля классов
 
 После логина/регистрации и установки JWT в Cookie для каждого запроса начинается работать фильтр, проверяющий
-валидность токена. Реализация фильтра находится здесь: [JwtFilter](lab1/src/main/java/org/ilestegor/lab1/configuration/jwtConfig/JwtServiceImpl.java)
+валидность токена. Реализация фильтра находится здесь: [JwtFilter](src/main/java/org/ilestegor/lab1/configuration/jwtConfig/JwtServiceImpl.java)
 
 
 ## Скриншоты отчетов SAST/SCA 
