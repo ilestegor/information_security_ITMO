@@ -19,6 +19,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
 
     public CachedBodyHttpServletRequest(HttpServletRequest request) {
         super(request);
+        initCachedBody();
     }
 
     private void initCachedBody() {
@@ -34,7 +35,6 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
 
     @Override
     public ServletInputStream getInputStream() {
-        initCachedBody();
         ByteArrayInputStream bais = new ByteArrayInputStream(cachedBody);
         return new ServletInputStream() {
             @Override
@@ -54,6 +54,7 @@ public class CachedBodyHttpServletRequest extends HttpServletRequestWrapper {
 
             @Override
             public void setReadListener(ReadListener readListener) {
+                // no-op
             }
         };
     }

@@ -9,6 +9,7 @@ import org.ilestegor.lab1.exception.exceptions.AccountLockedException;
 import org.ilestegor.lab1.service.impl.LoginAttemptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -25,6 +26,14 @@ public class LockCheckFilter extends OncePerRequestFilter {
     @Autowired
     private HandlerExceptionResolver resolver;
 
+    @Value("${lock.check.method.name}")
+    private String methodName;
+
+    @Value("${lock.check.endpoint}")
+    private String endpoint;
+
+    @Value("${lock.check.field_name}")
+    private String fieldName;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -46,12 +55,12 @@ public class LockCheckFilter extends OncePerRequestFilter {
     }
 
     private boolean isLogin(HttpServletRequest req) {
-        return "POST".equalsIgnoreCase(req.getMethod()) && "/api/auth/login".equals(req.getServletPath());
+        return methodName.equalsIgnoreCase(req.getMethod()) && endpoint.equals(req.getServletPath());
     }
 
     private String extractUsername(byte[] body, String contentType) throws IOException {
         if (contentType != null && contentType.contains("application/json") && body != null && body.length > 0) {
-            return new ObjectMapper().readTree(body).path("username").asText(null);
+            return new ObjectMapper().readTree(body).path(fieldName).asText(null);
         }
         return null;
     }
