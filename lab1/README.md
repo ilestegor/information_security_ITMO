@@ -10,7 +10,7 @@
 
 #### Auth API
 
-- POST /api/auth/register
+- **POST /api/auth/register**
 
 **Body-параметры**
 
@@ -40,7 +40,7 @@
 
 ---
 
-- POST /api/auth/login
+- **POST /api/auth/login**
 
 **Body-параметры**
 
@@ -73,7 +73,7 @@
 
 #### Todo API
 
-- POST /api/todos
+- **POST /api/todos**
 
 **Body-параметры**
 
@@ -99,9 +99,9 @@
 ```json
 {
     "id": 24,
-    "taskName": "679",
-    "description": "Hello world",
-    "deadline": "2025-09-17 13:20",
+    "taskName": "Buy milk",
+    "description": "Buy milk",
+    "deadline": "2025-09-23 13:00",
     "priority": "LOW",
     "created": "2025-09-16T14:12:29.437430Z",
     "isCompleted": false
@@ -112,7 +112,7 @@
 
 ---
 
-- GET /api/todos
+- **GET /api/todos**
 
 **Query-параметры**
 
@@ -186,6 +186,7 @@ GET /api/todos?page=2&size=20
 - Для защиты от XSS для всех строковых полей, которые возвращаются в ответах API используется `HtmlUtils.htmlEscape()` для экранизации 
 - Для всех не строковых полей происходит десериализация из Json в поля объекта, поэтому экранировать их не нужно.
 - Для не строковых полей используется валидация (NotNull, NotEmpty, Size)
+- При 3 неудачных попыток авторизоваться, аккаунт блокируется на время, указанное в переменной окружения
 
 ## Реализация аутентификация
 

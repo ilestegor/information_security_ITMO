@@ -7,7 +7,6 @@ import org.ilestegor.lab1.dto.ResponseTodoDto;
 import org.ilestegor.lab1.exception.exceptions.DeadlineInPastException;
 import org.ilestegor.lab1.exception.exceptions.UserNotfoundException;
 import org.ilestegor.lab1.model.Todo;
-import org.ilestegor.lab1.model.User;
 import org.ilestegor.lab1.repository.TodoRepository;
 import org.ilestegor.lab1.repository.UserRepository;
 import org.ilestegor.lab1.service.TodoService;
@@ -41,12 +40,12 @@ public class TodoServiceImpl implements TodoService {
             throw new DeadlineInPastException();
         }
 
-        User user = userRepository.findByUserName(authentication.getName());
-        if (user == null) {
+        var user = userRepository.findByUserName(authentication.getName());
+        if (user.isEmpty()) {
             throw new UserNotfoundException(authentication.getName());
         }
         Todo todo = new Todo();
-        todo.setUser(user);
+        todo.setUser(user.get());
         todo.setTaskName(requestTodoDto.taskName());
         todo.setDeadline(requestTodoDto.deadline());
         todo.setPriority(requestTodoDto.priority());

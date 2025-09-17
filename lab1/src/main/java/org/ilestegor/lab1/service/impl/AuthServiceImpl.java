@@ -8,13 +8,14 @@ import org.ilestegor.lab1.configuration.jwtConfig.JwtService;
 import org.ilestegor.lab1.dto.JwtRequestDto;
 import org.ilestegor.lab1.dto.JwtResponseDto;
 import org.ilestegor.lab1.exception.exceptions.UserAlreadyExistsException;
+import org.ilestegor.lab1.exception.exceptions.UserNotfoundException;
 import org.ilestegor.lab1.service.AuthService;
 import org.ilestegor.lab1.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -27,11 +28,11 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final LoginAttemptService loginAttemptService;
     @Value("${jwt.bearer}")
     private String BEARER_TOKEN;
     @Value("${jwt.access-ttl}")
     private Duration tokenTtl;
-
 
     @Override
     @Transactional
@@ -48,9 +49,10 @@ public class AuthServiceImpl implements AuthService {
         Authentication auth;
         try {
             auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequestDto.username(), jwtRequestDto.password()));
-        } catch (AuthenticationException ex) {
-            throw new org.ilestegor.lab1.exception.exceptions.AuthenticationException();
+        } catch (AuthorizationDeniedException ex) {
+            throw new UserNotfoundException("Ds");
         }
+
 
         if (auth.isAuthenticated()) {
             String jwt = jwtService.generateAccessToken(auth);

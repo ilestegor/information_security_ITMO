@@ -1,9 +1,10 @@
 package org.ilestegor.lab1.configuration;
 
 import org.ilestegor.lab1.configuration.jwtConfig.JwtFilter;
+import org.ilestegor.lab1.exception.DelegatingAuthEntryPoint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -24,6 +24,9 @@ public class SecurityConfiguration {
 
 
     private final UserDetailsService userDetailsService;
+
+    @Value("${bcrypt.password.strength}")
+    private Integer passwordStrength;
 
     public SecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -40,9 +43,10 @@ public class SecurityConfiguration {
 
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        http.exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+        http.exceptionHandling(e ->
+                e.authenticationEntryPoint(delegatingAuthEntryPoint()));
         http.addFilterBefore(getJwtFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(getLockCheckFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -61,11 +65,22 @@ public class SecurityConfiguration {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(passwordStrength);
     }
 
     @Bean
     public JwtFilter getJwtFilter() {
         return new JwtFilter();
     }
+
+    @Bean
+    public LockCheckFilter getLockCheckFilter() {
+        return new LockCheckFilter();
+    }
+
+    @Bean
+    public DelegatingAuthEntryPoint delegatingAuthEntryPoint() {
+        return new DelegatingAuthEntryPoint();
+    }
+
 }

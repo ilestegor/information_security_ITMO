@@ -13,10 +13,13 @@ public class CustomUserDetails implements ExtendedUserDetails {
 
     private final String password;
 
+    private final boolean isAccountNonLocked;
+
     public CustomUserDetails(User user) {
         this.id = user.getUserId();
         this.username = user.getUserName();
         this.password = user.getPassword();
+        this.isAccountNonLocked = user.isAccountNonLocked();
     }
 
     @Override
@@ -37,5 +40,10 @@ public class CustomUserDetails implements ExtendedUserDetails {
     @Override
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
     }
 }
