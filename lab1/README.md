@@ -125,7 +125,7 @@
 **Запрос**
 
 ```
-GET /api/todos?page=2&size=20
+GET /api/todos?page=1&size=20
 ```
 **Ответ**
 ```json
@@ -214,7 +214,7 @@ GET /api/todos?page=2&size=20
 
 ## Ссылка на последний успешный запуск pipeline
 
-Ссылка: [pipeline](https://github.com/ilestegor/information_security_ITMO/actions/runs/17776702123)
+Ссылка: [pipeline](https://github.com/ilestegor/information_security_ITMO/actions/runs/17801138318)
 
 
 
