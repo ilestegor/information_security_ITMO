@@ -47,11 +47,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtResponseDto login(JwtRequestDto jwtRequestDto, HttpServletResponse response) {
         Authentication auth;
-        try {
-            auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequestDto.username(), jwtRequestDto.password()));
-        } catch (AuthorizationDeniedException ex) {
-            throw new UserNotfoundException("Ds");
-        }
+        auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequestDto.username(), jwtRequestDto.password()));
 
 
         if (auth.isAuthenticated()) {
